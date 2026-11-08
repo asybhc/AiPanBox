@@ -12,11 +12,12 @@ namespace BaiduVault.App;
 /// <summary>内置使用说明查看窗口：把 markdown 渲染成可滚动的深色文档。</summary>
 public partial class HelpWindow : Window
 {
-    private static readonly Brush TextBrush = new SolidColorBrush(Color.FromRgb(0xE6, 0xE6, 0xE6));
-    private static readonly Brush HeadBrush = new SolidColorBrush(Color.FromRgb(0x9C, 0xDC, 0xFE));
-    private static readonly Brush QuietBrush = new SolidColorBrush(Color.FromRgb(0xA8, 0xA8, 0xB0));
+    private static readonly Brush TextBrush = new SolidColorBrush(Color.FromRgb(0x1F, 0x1F, 0x1F));
+    private static readonly Brush HeadBrush = new SolidColorBrush(Color.FromRgb(0x1F, 0x5F, 0xA8));
+    private static readonly Brush QuietBrush = new SolidColorBrush(Color.FromRgb(0x66, 0x66, 0x66));
     private static readonly Brush CodeBrush = new SolidColorBrush(Color.FromRgb(0x26, 0x26, 0x2C));
-    private static readonly Brush LineBrush = new SolidColorBrush(Color.FromRgb(0x34, 0x34, 0x3A));
+    private static readonly Brush ChipBrush = new SolidColorBrush(Color.FromRgb(0xF1, 0xF1, 0xF4));
+    private static readonly Brush LineBrush = new SolidColorBrush(Color.FromRgb(0xD0, 0xD0, 0xD4));
     private static readonly FontFamily Mono = new("Consolas, Microsoft YaHei UI");
     private static readonly Regex InlineRe = new(@"\*\*(.+?)\*\*|`([^`]+)`", RegexOptions.Compiled);
     private static readonly Regex BulletRe = new(@"^(\s*)[-*]\s+", RegexOptions.Compiled);
@@ -149,8 +150,8 @@ public partial class HelpWindow : Window
             {
                 tb.Inlines.Add(new Span(new Run(m.Groups[2].Value))
                 {
-                    FontFamily = Mono, Background = CodeBrush,
-                    Foreground = new SolidColorBrush(Color.FromRgb(0xF0, 0xD8, 0xA8)),
+                    FontFamily = Mono, Background = ChipBrush,
+                    Foreground = new SolidColorBrush(Color.FromRgb(0x9A, 0x3B, 0x00)),
                 });
             }
             pos = m.Index + m.Length;
@@ -217,7 +218,7 @@ public partial class HelpWindow : Window
                 var cell = new Border
                 {
                     BorderBrush = LineBrush, BorderThickness = new Thickness(0, 0, 1, 1),
-                    Background = r == 0 ? new SolidColorBrush(Color.FromRgb(0x2E, 0x2E, 0x36)) : Brushes.Transparent,
+                    Background = r == 0 ? new SolidColorBrush(Color.FromRgb(0xF1, 0xF1, 0xF4)) : Brushes.Transparent,
                     Padding = new Thickness(9, 6, 9, 6), Child = tb,
                 };
                 Grid.SetRow(cell, r);
