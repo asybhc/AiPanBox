@@ -15,7 +15,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        Loaded += async (_, _) => await InitAsync();
+        // 窗口句柄一创建就切浅色标题栏（早于显示），避免先跟随系统深色模式
+        WindowTheme.ApplyDarkTitleBar(this);
+        // 只做初始化，不做透明度淡入：透明期间会透出深色桌面，反而像“闪深色”
+        ContentRendered += async (_, _) => await InitAsync();
     }
 
     private void Help_Click(object sender, RoutedEventArgs e)
@@ -30,6 +33,11 @@ public partial class MainWindow : Window
     {
         try
         {
+            if (EnvProvisioner.NeedsProvisioning())
+            {
+                Status("首次运行，正在自动安装运行环境（约 1～2 分钟，请稍候）…");
+                await Task.Run(EnvProvisioner.Ensure);
+            }
             Status("正在连接本地实例（未运行则自动拉起）…");
             await Task.Run(() => _svc.EnsureRunning());
             _client = _svc.CreateClient();
@@ -58,8 +66,8 @@ public partial class MainWindow : Window
             Header = entry.IsDirectory ? $"📁 {entry.Name}" : $"🎬 {entry.Name}   {FormatSize(entry.Size)}",
             Tag = entry,
             Foreground = entry.IsDirectory
-                ? System.Windows.Media.Brushes.LightSkyBlue
-                : System.Windows.Media.Brushes.Gainsboro,
+                ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x1F, 0x5F, 0xA8))
+                : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x33, 0x33, 0x33)),
         };
         if (entry.IsDirectory)
             item.Items.Add(new TreeViewItem { Header = "…", Tag = DummyTag });

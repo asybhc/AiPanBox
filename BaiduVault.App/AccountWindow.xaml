@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="账号管理" Width="1060" Height="580"
-        Background="#FF1B1B1F" Foreground="#FFE6E6E6"
+        Background="#FFFFFFFF" Foreground="#FF1A1A1A"
         WindowStartupLocation="CenterOwner">
     <DockPanel Margin="12">
-        <Border DockPanel.Dock="Top" Background="#FF26262C" BorderBrush="#FF34343A" BorderThickness="1"
+        <Border DockPanel.Dock="Top" Background="#FFF6F6F8" BorderBrush="#FFDDDDDF" BorderThickness="1"
                 CornerRadius="6" Padding="10,8" Margin="0,0,0,8">
             <DockPanel>
                 <StackPanel Orientation="Horizontal">
@@ -15,17 +15,17 @@
                     <Button Content="删除账号" Click="Delete_Click" Padding="14,5" Margin="0,0,8,0"/>
                     <Button Content="重启服务" Click="Restart_Click" Padding="14,5"/>
                 </StackPanel>
-                <TextBlock x:Name="StatusText" Foreground="#FFA8A8B0" FontSize="12"
+                <TextBlock x:Name="StatusText" Foreground="#FF666666" FontSize="12"
                            HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,2,0"/>
             </DockPanel>
         </Border>
         <TextBlock DockPanel.Dock="Top" x:Name="HintText" TextWrapping="Wrap"
-                   Foreground="#FFA8A8B0" FontSize="12" Margin="4,0,4,8"/>
+                   Foreground="#FF666666" FontSize="12" Margin="4,0,4,8"/>
         <DataGrid x:Name="AccountGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
                   HeadersVisibility="Column" GridLinesVisibility="Horizontal" RowHeight="30"
                   CanUserResizeRows="False" HorizontalScrollBarVisibility="Disabled"
-                  Background="#FF1F1F24" RowBackground="#FF1F1F24" AlternatingRowBackground="#FF232329"
-                  BorderBrush="#FF34343A" BorderThickness="1"
+                  Background="#FFF2F2F5" RowBackground="#FFF2F2F5" AlternatingRowBackground="#FFF2F2F5"
+                  BorderBrush="#FFDDDDDF" BorderThickness="1"
                   MouseDoubleClick="AccountGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="账号" Binding="{Binding Name}" Width="110"/>

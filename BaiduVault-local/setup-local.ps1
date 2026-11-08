@@ -207,10 +207,13 @@ if (Test-Port $OpenListPort) {
     Log "OpenList 已在 :$OpenListPort 监听，跳过启动"
 } else {
     Log "启动 OpenList（数据目录 $OLData）"
-    $procId = Start-Detached "`"$OpenListExe`" server --data `"$OLData`"" $Root
-    Set-Content (Join-Path $RunDir 'openlist.pid') $procId
+    # 新版 OpenList 首启不会自动建 admin，改为通过环境变量直接在启动时创建，
+    # 避免依赖已不存在的 /api/public/init/setup 接口。
+    $procId = Start-Detached "cmd.exe /c set OPENLIST_ADMIN_PASSWORD=$OLPass&& `"$OpenListExe`" server --data `"$OLData`"" $Root
     Wait-Port $OpenListPort 40 'OpenList'
-    Log "OpenList 已启动（PID $procId，http://127.0.0.1:$OpenListPort）"
+    $opPid = (Get-Process 'openlist' -ErrorAction SilentlyContinue | Select-Object -First 1).Id
+    Set-Content (Join-Path $RunDir 'openlist.pid') ($(if ($opPid) { $opPid } else { $procId }))
+    Log "OpenList 已启动（PID $opPid，http://127.0.0.1:$OpenListPort）"
 }
 
 # v4.2.9 起首启不再自动创建 admin（改为 Web 安装向导）：未初始化则调 API 创建

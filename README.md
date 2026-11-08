@@ -17,14 +17,14 @@
 ## 运行环境
 
 - Windows 10 / 11 64 位
-- 首次运行需要联网，由 `setup-local.ps1` 下载 rclone 与 OpenList
+- 不用装 .NET、rclone、OpenList：单文件版已自带，首次启动自动释放到 `%LOCALAPPDATA%\BaiduVault`
 - 百度网盘账号（SVIP 体验更好）
 
 ## 快速开始
 
-1. 从 Releases 下载单文件版 `AiPanBox-1.0.exe`，双击后选择解压位置，得到一个 `AiPanBox-1.0` 文件夹；也可以下载 `AiPanBox-1.0-win64.zip` 直接解压
-2. 进入该文件夹，运行 `setup-local.ps1` 完成初始化
-3. 打开 `app\BaiduVault.App.exe`
+1. 从 Releases 下载 `AiPanBox.exe`，双击即可，不需要解压或运行任何初始化脚本
+2. 首次启动会自动安装运行环境（约 1～2 分钟），并自带一个本地演示库
+3. 之后每次打开都是秒开；再次双击不会开第二个窗口，而是把已有窗口叫到前面
 
 百度网盘授权、添加库、上传、播放等详细步骤见 [使用说明.txt](使用说明.txt)。
 
@@ -36,10 +36,12 @@
 dotnet build -c Release BaiduVault.App\BaiduVault.App.csproj
 ```
 
-打包自包含发行版：
+打包自包含单文件（运行时、libVLC、rclone、OpenList 全部打包进一个 exe）：
 
 ```powershell
-dotnet publish BaiduVault.App\BaiduVault.App.csproj -c Release -r win-x64 --self-contained true -o dist
+dotnet publish BaiduVault.App\BaiduVault.App.csproj -c Release -r win-x64 --self-contained true `
+  -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true `
+  -p:EnableCompressionInSingleFile=true -o dist
 ```
 
 ## 目录结构

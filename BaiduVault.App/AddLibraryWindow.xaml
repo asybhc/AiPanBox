@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="添加/编辑库" Width="860" Height="560"
-        Background="#FF1B1B1F" Foreground="#FFE6E6E6"
+        Background="#FFFFFFFF" Foreground="#FF1A1A1A"
         WindowStartupLocation="CenterOwner">
     <DockPanel Margin="12">
         <Border x:Name="ModeBanner" DockPanel.Dock="Top" Visibility="Collapsed"
-                Background="#FF3A2E14" Padding="10,7" Margin="0,0,0,8" CornerRadius="4">
-            <TextBlock x:Name="ModeBannerText" Foreground="#FFFFCC66" TextWrapping="Wrap"/>
+                Background="#FFFFF4D6" Padding="10,7" Margin="0,0,0,8" CornerRadius="4">
+            <TextBlock x:Name="ModeBannerText" Foreground="#FF9A5B00" TextWrapping="Wrap"/>
         </Border>
 
         <Border DockPanel.Dock="Top" Margin="0,0,0,8">
@@ -19,7 +19,7 @@
             </StackPanel>
         </Border>
 
-        <Border DockPanel.Dock="Top" Margin="0,0,0,8" Background="#FF26262C" Padding="8" CornerRadius="4">
+        <Border DockPanel.Dock="Top" Margin="0,0,0,8" Background="#FFF6F6F8" Padding="8" CornerRadius="4">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="网盘：" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <ComboBox x:Name="PresetCombo" Width="360"
@@ -27,14 +27,14 @@
                 <Button x:Name="AdvancedBtn" Content="高级：手填驱动名" Click="Advanced_Click"
                         Margin="12,0,0,0" Padding="8,2"/>
                 <TextBlock x:Name="TierText" VerticalAlignment="Center" Margin="12,0,0,0"
-                           Foreground="#FF9CDCFE"/>
+                           Foreground="#FF0B63C5"/>
             </StackPanel>
         </Border>
 
         <Border DockPanel.Dock="Bottom" Margin="0,8,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock x:Name="TestResultText" VerticalAlignment="Center" Margin="0,0,12,0"
-                           Foreground="#FF9CDCFE"/>
+                           Foreground="#FF0B63C5"/>
                 <Button x:Name="TestBtn" Content="连接测试" Click="Test_Click" Padding="12,4" Margin="0,0,8,0"/>
                 <Button x:Name="OkBtn" Content="完成" Click="Ok_Click" Style="{StaticResource AccentButtonStyle}" Padding="12,4" Margin="0,0,8,0" IsDefault="True"/>
                 <Button Content="取消" Click="Cancel_Click" Padding="12,4" IsCancel="True"/>
@@ -43,31 +43,31 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel>
-                <Expander Header="授权引导（照做即可）" IsExpanded="True" Foreground="#FFE6E6E6"
+                <Expander Header="授权引导（照做即可）" IsExpanded="True" Foreground="#FF1A1A1A"
                           Margin="0,0,0,8">
-                    <Border Background="#FF26262C" Padding="10" Margin="0,6,0,0" CornerRadius="4">
+                    <Border Background="#FFF6F6F8" Padding="10" Margin="0,6,0,0" CornerRadius="4">
                         <StackPanel>
-                            <TextBlock x:Name="GuideTitle" FontWeight="Bold" Foreground="#FF9CDCFE"
+                            <TextBlock x:Name="GuideTitle" FontWeight="Bold" Foreground="#FF0B63C5"
                                        TextWrapping="Wrap"/>
                             <TextBlock x:Name="GuideSummary" Margin="0,4,0,0" TextWrapping="Wrap"
-                                       Foreground="#FFB0B0B0"/>
+                                       Foreground="#FF666666"/>
                             <TextBlock x:Name="GuideSteps" Margin="0,6,0,0" TextWrapping="Wrap"
-                                       Foreground="#FFE6E6E6"/>
+                                       Foreground="#FF1A1A1A"/>
                             <TextBlock x:Name="GuideFailures" Margin="0,6,0,0" TextWrapping="Wrap"
-                                       Foreground="#FFFFCC66"/>
+                                       Foreground="#FF9A5B00"/>
                             <Button x:Name="PlatformBtn" Content="打开平台申请/登录页" Click="Platform_Click"
                                     HorizontalAlignment="Left" Margin="0,8,0,0" Padding="10,3"/>
 
                             <Border x:Name="OAuthPanel" Visibility="Collapsed" Margin="0,10,0,0"
-                                    Background="#FF1B1B1F" Padding="10" CornerRadius="4">
+                                    Background="#FFFFFFFF" Padding="10" CornerRadius="4">
                                 <StackPanel>
-                                    <TextBlock Text="一键授权（自动换取访问令牌）" FontWeight="Bold" Foreground="#FF9CDCFE"/>
+                                    <TextBlock Text="一键授权（自动换取访问令牌）" FontWeight="Bold" Foreground="#FF0B63C5"/>
                                     <TextBlock x:Name="OAuthNote" Margin="0,4,0,0" TextWrapping="Wrap"
-                                               Foreground="#FFB0B0B0"/>
+                                               Foreground="#FF666666"/>
                                     <TextBox x:Name="AuthUrlBox" Margin="0,6,0,0" IsReadOnly="True"
                                              TextWrapping="Wrap" Height="52" FontSize="11"
-                                             Background="#FF26262C" Foreground="#FFB0B0B0"
-                                             BorderBrush="#FF3F3F46"/>
+                                             Background="#FFF6F6F8" Foreground="#FF666666"
+                                             BorderBrush="#FFD0D0D4"/>
                                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                         <Button x:Name="OpenAuthBtn" Content="打开授权页" Click="OpenAuth_Click"
                                                 Padding="10,3" Margin="0,0,8,0"/>
@@ -78,14 +78,14 @@
                                                 Padding="10,3"/>
                                     </StackPanel>
                                     <TextBlock x:Name="OAuthResult" Margin="0,6,0,0" TextWrapping="Wrap"
-                                               Foreground="#FF9CDCFE"/>
+                                               Foreground="#FF0B63C5"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
                     </Border>
                 </Expander>
 
-                <TextBlock Text="驱动字段（* 为必填）" FontWeight="Bold" Foreground="#FF9CDCFE"
+                <TextBlock Text="驱动字段（* 为必填）" FontWeight="Bold" Foreground="#FF0B63C5"
                            Margin="0,0,0,6"/>
                 <StackPanel x:Name="FieldsPanel"/>
             </StackPanel>

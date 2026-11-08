@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="..\BaiduVault-local\使用说明.md" LogicalName="使用说明.md" />
+    <EmbeddedResource Include="Assets\libvlc.zip" LogicalName="libvlc.zip" />
+    <EmbeddedResource Include="Assets\env.zip" LogicalName="env.zip" />
   </ItemGroup>
 
 </Project>

@@ -2,32 +2,32 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="选择远端目录" Width="560" Height="480"
-        Background="#FF1B1B1F" Foreground="#FFE6E6E6"
+        Background="#FFFFFFFF" Foreground="#FF1A1A1A"
         WindowStartupLocation="CenterOwner">
     <DockPanel Margin="12">
         <Border DockPanel.Dock="Top" Margin="0,0,0,8">
             <StackPanel>
-                <TextBlock x:Name="LibText" Foreground="#FF9CDCFE" FontWeight="Bold" Margin="0,0,0,6"/>
-                <TextBlock x:Name="PathText" Foreground="#FFB0B0B0" TextTrimming="CharacterEllipsis"
+                <TextBlock x:Name="LibText" Foreground="#FF0B63C5" FontWeight="Bold" Margin="0,0,0,6"/>
+                <TextBlock x:Name="PathText" Foreground="#FF666666" TextTrimming="CharacterEllipsis"
                            Margin="0,0,0,6"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Content="上一级" Click="Up_Click" Padding="12,4" Margin="0,0,8,0"/>
                     <Button Content="新建文件夹" Click="NewFolder_Click" Padding="12,4" Margin="0,0,8,0"/>
                     <Button Content="刷新" Click="Refresh_Click" Padding="12,4" Margin="0,0,8,0"/>
-                    <TextBlock x:Name="LoadingText" VerticalAlignment="Center" Foreground="#FF888888"/>
+                    <TextBlock x:Name="LoadingText" VerticalAlignment="Center" Foreground="#FF666666"/>
                 </StackPanel>
             </StackPanel>
         </Border>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right"
                     Margin="0,8,0,0">
-            <TextBlock x:Name="DirCountText" VerticalAlignment="Center" Foreground="#FF888888"
+            <TextBlock x:Name="DirCountText" VerticalAlignment="Center" Foreground="#FF666666"
                        Margin="0,0,12,0"/>
             <Button x:Name="ChooseBtn" Content="选择当前目录" Click="Choose_Click" Style="{StaticResource AccentButtonStyle}" Padding="14,4"
                     Margin="0,0,8,0" IsDefault="True"/>
             <Button Content="取消" Click="Cancel_Click" Padding="14,4" IsCancel="True"/>
         </StackPanel>
         <!-- ListBox 必须是 DockPanel 最后一个子元素，否则默认 Dock=Left 会把底部按钮挤成竖条 -->
-        <ListBox x:Name="DirList" Background="#FF26262C" Foreground="#FFE6E6E6"
-                 BorderBrush="#FF3F3F46" MouseDoubleClick="DirList_MouseDoubleClick"/>
+        <ListBox x:Name="DirList" Background="#FFF6F6F8" Foreground="#FF1A1A1A"
+                 BorderBrush="#FFD0D0D4" MouseDoubleClick="DirList_MouseDoubleClick"/>
     </DockPanel>
 </Window>
