@@ -1,0 +1,7 @@
+bin/
+obj/
+_uitest/
+.vs/
+*.user
+*.suo
+*.log

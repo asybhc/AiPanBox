@@ -1,0 +1,21 @@
+<Application x:Class="BaiduVault.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             StartupUri="MainWindow.xaml">
+    <!-- 统一使用 ModernWpfUI（Fluent/Win11 风格）深色主题：
+         Button/TextBox/CheckBox/ScrollBar/TreeView/Expander/ToolTip 等系统控件由库统一重绘，
+         不再逐个窗口手写深色模板。 -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources RequestedTheme="Dark"/>
+                <ui:XamlControlsResources/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- 所有窗口统一使用同一应用图标 -->
+            <Style TargetType="Window">
+                <Setter Property="Icon" Value="/BaiduVault.App;component/Assets/app.ico"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
