@@ -22,8 +22,8 @@
 
 ## 快速开始
 
-1. 从 Releases 下载 `AiPanBox-1.0-win64.zip`，完整解压
-2. 在解压目录运行 `setup-local.ps1` 完成初始化
+1. 从 Releases 下载单文件版 `AiPanBox-1.0.exe`，双击后选择解压位置，得到一个 `AiPanBox-1.0` 文件夹；也可以下载 `AiPanBox-1.0-win64.zip` 直接解压
+2. 进入该文件夹，运行 `setup-local.ps1` 完成初始化
 3. 打开 `app\BaiduVault.App.exe`
 
 百度网盘授权、添加库、上传、播放等详细步骤见 [使用说明.txt](使用说明.txt)。
