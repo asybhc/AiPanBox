@@ -165,7 +165,7 @@ public partial class AccountWindow : Window
         if (answer != MessageBoxResult.Yes) return;
         try
         {
-            _mgr.RemoveMount(row.Name, _svc);
+            await _mgr.RemoveMountAsync(row.Name, _svc);
             await ReloadAsync();
         }
         catch (Exception ex)

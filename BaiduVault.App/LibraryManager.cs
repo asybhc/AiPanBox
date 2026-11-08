@@ -369,6 +369,12 @@ public sealed class LibraryManager
         svc.RestartServe();
     }
 
+    /// <summary>异步版移出挂载，避免阻塞 UI。</summary>
+    public async Task RemoveMountAsync(string name, ServiceManager svc)
+    {
+        await Task.Run(() => RemoveMount(name, svc));
+    }
+
     /// <summary>彻底删除：移出挂载 + 删 OpenList 存储 + 删密钥段。</summary>
     public async Task DeleteLibraryAsync(string name, ServiceManager svc) =>
         await DeleteAccountAsync(name, svc, deleteKeys: true);
@@ -376,7 +382,7 @@ public sealed class LibraryManager
     /// <summary>删除账号：移出挂载 + 删 OpenList 登录凭证（存储）；deleteKeys 决定是否删掉加密密钥。</summary>
     public async Task DeleteAccountAsync(string name, ServiceManager svc, bool deleteKeys)
     {
-        RemoveMount(name, svc);
+        await RemoveMountAsync(name, svc);
         await _ol.LoginAsync();
         var storages = await _ol.ListStoragesAsync();
         var s = storages.Content.FirstOrDefault(x => x.MountPath == "/" + name);

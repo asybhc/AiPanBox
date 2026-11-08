@@ -210,8 +210,8 @@ public partial class LibraryWindow : Window
         {
             Title = title, Width = 400, Height = 160,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-            Foreground = Brushes.Gainsboro,
+            Background = Brushes.White,
+            Foreground = Brushes.Black,
         };
         var panel = new StackPanel { Margin = new Thickness(12) };
         panel.Children.Add(new TextBlock { Text = prompt, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) });
@@ -219,7 +219,7 @@ public partial class LibraryWindow : Window
         System.Windows.Automation.AutomationProperties.SetAutomationId(tb, "PromptInputBox");
         panel.Children.Add(tb);
         var btns = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 12, 0, 0) };
-        var ok = new Button { Content = "确定", Width = 70, Margin = new Thickness(0, 0, 8, 0) };
+        var ok = new Button { Content = "保存", Width = 70, Margin = new Thickness(0, 0, 8, 0) };
         var cancel = new Button { Content = "取消", Width = 70 };
         btns.Children.Add(ok); btns.Children.Add(cancel);
         panel.Children.Add(btns);
