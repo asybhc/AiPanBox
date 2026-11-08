@@ -253,6 +253,40 @@ public partial class SettingsWindow : Window
         sb.AppendLine();
     }
 
+    private void ClearLogs_Click(object sender, RoutedEventArgs e)
+    {
+        var ok = MessageBox.Show(this,
+            "清空后当前日志内容会丢失。服务仍在运行，会继续写入新的记录。确定清空？",
+            "清空日志", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+        if (ok != MessageBoxResult.Yes) return;
+
+        var dirs = new[]
+        {
+            Path.Combine(Root, "logs"),
+            Path.Combine(Root, "openlist-data", "log"),
+        };
+        var failed = 0;
+        foreach (var dir in dirs)
+        {
+            if (!Directory.Exists(dir)) continue;
+            foreach (var f in Directory.GetFiles(dir, "*.log"))
+            {
+                try
+                {
+                    // 允许与服务共享读写，避免日志正被 rclone/openlist 打开时无法清空
+                    using var fs = new FileStream(f, FileMode.Truncate, FileAccess.Write,
+                        FileShare.ReadWrite | FileShare.Delete);
+                }
+                catch { failed++; }
+            }
+        }
+
+        LogBox.Text = "日志已清空。";
+        if (failed > 0)
+            MessageBox.Show(this, $"有 {failed} 个日志文件正在被占用，未能清空；可稍后再试。",
+                "清空日志", MessageBoxButton.OK, MessageBoxImage.Warning);
+    }
+
     private void OpenLogDir_Click(object sender, RoutedEventArgs e)
     {
         var dir = Path.Combine(Root, "logs");
