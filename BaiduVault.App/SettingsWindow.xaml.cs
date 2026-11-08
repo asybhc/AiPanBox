@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -245,9 +246,17 @@ public partial class SettingsWindow : Window
         if (!File.Exists(path)) { sb.AppendLine("(文件不存在)"); sb.AppendLine(); return; }
         try
         {
-            var lines = File.ReadAllLines(path);
-            var tail = lines.Skip(Math.Max(0, lines.Length - 80));
-            foreach (var l in tail) sb.AppendLine(l);
+            // 共享读：日志正被 rclone/openlist 写入时也能读取，不再报“无法访问文件”
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read,
+                FileShare.ReadWrite | FileShare.Delete);
+            using var sr = new StreamReader(fs, Encoding.UTF8);
+            var recent = new Queue<string>();
+            while (sr.ReadLine() is { } line)
+            {
+                recent.Enqueue(line);
+                if (recent.Count > 80) recent.Dequeue();
+            }
+            foreach (var l in recent) sb.AppendLine(l);
         }
         catch (Exception ex) { sb.AppendLine($"(读取失败: {ex.Message})"); }
         sb.AppendLine();
