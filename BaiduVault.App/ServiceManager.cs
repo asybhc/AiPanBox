@@ -92,6 +92,12 @@ public sealed class ServiceManager
         WaitPort(WebDavPort, 30, "播放服务");
     }
 
+    /// <summary>异步版重启，避免阻塞 UI。</summary>
+    public async Task RestartServeAsync()
+    {
+        await Task.Run(RestartServe);
+    }
+
     /// <summary>重启 openlist（端口变更后调用）。</summary>
     public void RestartOpenList()
     {

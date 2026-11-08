@@ -16,8 +16,8 @@ internal static class PasswordPrompt
             SizeToContent = SizeToContent.Height,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             Owner = owner,
-            Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-            Foreground = Brushes.Gainsboro,
+            Background = Brushes.White,
+            Foreground = Brushes.Black,
         };
         var panel = new StackPanel { Margin = new Thickness(16, 14, 16, 14) };
         panel.Children.Add(new TextBlock { Text = prompt, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10) });
@@ -35,7 +35,7 @@ internal static class PasswordPrompt
             panel.Children.Add(pwd2);
         }
 
-        var hint = new TextBlock { Foreground = new SolidColorBrush(Color.FromRgb(0xF4, 0x7B, 0x7B)), Margin = new Thickness(0, 8, 0, 0), Visibility = Visibility.Collapsed };
+        var hint = new TextBlock { Foreground = new SolidColorBrush(Color.FromRgb(0xC0, 0x39, 0x2B)), Margin = new Thickness(0, 8, 0, 0), Visibility = Visibility.Collapsed };
         panel.Children.Add(hint);
 
         var btns = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 14, 0, 0) };

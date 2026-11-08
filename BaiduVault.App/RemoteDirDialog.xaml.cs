@@ -142,8 +142,8 @@ public partial class RemoteDirDialog : Window
         {
             Title = title, Width = 420, Height = 160,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = System.Windows.Media.Brushes.Black,
-            Foreground = System.Windows.Media.Brushes.Gainsboro,
+            Background = System.Windows.Media.Brushes.White,
+            Foreground = System.Windows.Media.Brushes.Black,
         };
         var panel = new StackPanel { Margin = new Thickness(12) };
         panel.Children.Add(new TextBlock { Text = prompt, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) });

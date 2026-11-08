@@ -45,7 +45,7 @@ public partial class AccountWindow : Window
             {
                 Name = lib.Name,
                 Remark = lib.DisplayName == lib.Name ? "" : lib.DisplayName,
-                Driver = lib.Driver,
+                Driver = CloudPresets.DriverDisplay(lib.Driver),
                 StatusText = StatusLabel(lib.Status),
                 Credentials = CredentialSummary(lib.Driver, lib.Addition),
                 KeyText = lib.HasCryptKey ? "有" : "无",
@@ -203,8 +203,8 @@ public partial class AccountWindow : Window
         {
             Title = "删除账号", Width = 520, SizeToContent = SizeToContent.Height,
             WindowStartupLocation = WindowStartupLocation.CenterOwner, Owner = this,
-            Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-            Foreground = Brushes.Gainsboro, ResizeMode = ResizeMode.NoResize,
+            Background = Brushes.White,
+            Foreground = Brushes.Black, ResizeMode = ResizeMode.NoResize,
         };
         var panel = new StackPanel { Margin = new Thickness(18, 16, 18, 14) };
         panel.Children.Add(new TextBlock
@@ -213,13 +213,13 @@ public partial class AccountWindow : Window
                    "1. 从同步配置中移出该库的加密与分片挂载\n" +
                    "2. 删除网盘服务中保存的登录凭证（该账号将不再登录）\n\n" +
                    "这会立即影响正在进行的上传/播放，请先停止相关操作。",
-            TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Gainsboro, LineHeight = 22,
+            TextWrapping = TextWrapping.Wrap, Foreground = new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x1A)), LineHeight = 22,
         });
 
         var keepKey = new CheckBox
         {
             Content = "同时删除该账号的加密密钥（不可恢复，已有密文将永久无法解密）",
-            Margin = new Thickness(0, 14, 0, 0), Foreground = new SolidColorBrush(Color.FromRgb(0xF4, 0x7B, 0x7B)),
+            Margin = new Thickness(0, 14, 0, 0), Foreground = new SolidColorBrush(Color.FromRgb(0xC0, 0x39, 0x2B)),
             IsEnabled = row.Info.HasCryptKey,
         };
         panel.Children.Add(keepKey);
@@ -229,7 +229,7 @@ public partial class AccountWindow : Window
                 ? "不勾选则只删除登录凭证，密钥保留，日后用同一账号重新添加时仍可解密已有文件。"
                 : "该账号没有可删除的密钥。",
             TextWrapping = TextWrapping.Wrap, FontSize = 12, Margin = new Thickness(0, 6, 0, 0),
-            Foreground = new SolidColorBrush(Color.FromRgb(0xA8, 0xA8, 0xB0)),
+            Foreground = new SolidColorBrush(Color.FromRgb(0x66, 0x66, 0x66)),
         });
 
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 16, 0, 0) };

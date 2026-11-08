@@ -51,7 +51,7 @@ public partial class LibraryWindow : Window
             Grid.ItemsSource = _libs.Select(l => new Row
             {
                 Name = l.Name,
-                Driver = l.Driver,
+                Driver = CloudPresets.DriverDisplay(l.Driver),
                 StatusText = l.Status switch
                 {
                     LibraryManager.LibStatus.Normal => "正常",

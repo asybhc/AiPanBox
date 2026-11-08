@@ -171,7 +171,7 @@ public partial class AddLibraryWindow : Window
     {
         _preset = preset;
         _manualDriver = null;
-        GuideTitle.Text = $"{preset.Display}  →  {preset.Driver}";
+        GuideTitle.Text = preset.Display;
         GuideSummary.Text = preset.Summary;
         GuideSteps.Text = FormatSteps(preset.Steps);
         GuideFailures.Text = preset.CommonFailures.Length == 0
@@ -338,8 +338,8 @@ public partial class AddLibraryWindow : Window
         {
             Title = title, Width = 460, Height = 170,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-            Foreground = Brushes.Gainsboro,
+            Background = Brushes.White,
+            Foreground = Brushes.Black,
         };
         var panel = new StackPanel { Margin = new Thickness(12) };
         panel.Children.Add(new TextBlock { Text = prompt, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) });
@@ -390,11 +390,12 @@ public partial class AddLibraryWindow : Window
     {
         var panel = new StackPanel { Margin = new Thickness(0, 4, 0, 4) };
         var labelText = CloudPresets.LabelFor(_preset, f.Name);
+        var helpText = CloudPresets.HelpFor(f.Help);
         var label = new TextBlock
         {
             Text = labelText + (f.Required ? " *" : "") +
-                   (string.IsNullOrEmpty(f.Help) ? "" : $"  （{f.Help}）"),
-            Foreground = Brushes.Gainsboro,
+                   (helpText.Length == 0 ? "" : $"  （{helpText}）"),
+            Foreground = new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x1A)),
             TextWrapping = TextWrapping.Wrap,
         };
         panel.Children.Add(label);
@@ -404,10 +405,10 @@ public partial class AddLibraryWindow : Window
             case "select":
                 var cb = new ComboBox { Width = 260, HorizontalAlignment = HorizontalAlignment.Left };
                 AutomationProperties.SetAutomationId(cb, "field_" + f.Name);
-                foreach (var o in f.OptionList) cb.Items.Add(o);
-                if (f.OptionList.Count > 0 && !string.IsNullOrEmpty(f.Default) && f.OptionList.Contains(f.Default))
-                    cb.SelectedItem = f.Default;
-                else if (f.OptionList.Count > 0) cb.SelectedIndex = 0;
+                // 界面显示中文，Tag 保留提交给网盘服务的原始选项值
+                foreach (var o in f.OptionList)
+                    cb.Items.Add(new ComboBoxItem { Content = CloudPresets.OptionLabel(o), Tag = o });
+                SelectComboByValue(cb, f.Default);
                 ctrl = cb;
                 break;
             case "bool":
@@ -421,8 +422,8 @@ public partial class AddLibraryWindow : Window
                 var tb = new TextBox
                 {
                     AcceptsReturn = true, Height = 60, TextWrapping = TextWrapping.Wrap,
-                    Text = f.Default ?? "", Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-                    Foreground = Brushes.Gainsboro,
+                    Text = f.Default ?? "", Background = Brushes.White,
+                    Foreground = new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x1A)),
                 };
                 AutomationProperties.SetAutomationId(tb, "field_" + f.Name);
                 ctrl = tb;
@@ -433,8 +434,8 @@ public partial class AddLibraryWindow : Window
                 var t = new TextBox
                 {
                     Text = f.Default ?? "",
-                    Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x1B, 0x1F)),
-                    Foreground = Brushes.Gainsboro,
+                    Background = Brushes.White,
+                    Foreground = new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x1A)),
                 };
                 // 令牌/密钥类字段建议横向占满，便于粘贴
                 if (f.Name.Contains("token", StringComparison.OrdinalIgnoreCase) ||
@@ -482,14 +483,34 @@ public partial class AddLibraryWindow : Window
         {
             case TextBox tb: tb.Text = value; break;
             case ComboBox cb:
-                if (!cb.Items.Contains(value)) cb.Items.Add(value);
-                cb.SelectedItem = value;
+                SelectComboByValue(cb, value);
                 break;
             case CheckBox chk:
                 chk.IsChecked = value.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                                 value.Equals("t", StringComparison.OrdinalIgnoreCase);
                 break;
         }
+    }
+
+    /// <summary>按原始选项值选中下拉项；值不在列表中时补一项（显示原值）。</summary>
+    private static void SelectComboByValue(ComboBox cb, string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            if (cb.Items.Count > 0) cb.SelectedIndex = 0;
+            return;
+        }
+        foreach (var item in cb.Items)
+        {
+            if (item is ComboBoxItem ci && string.Equals(ci.Tag as string, value, StringComparison.OrdinalIgnoreCase))
+            {
+                cb.SelectedItem = item;
+                return;
+            }
+        }
+        var extra = new ComboBoxItem { Content = value, Tag = value };
+        cb.Items.Add(extra);
+        cb.SelectedItem = extra;
     }
 
     private Dictionary<string, object> CollectAddition()
@@ -521,7 +542,7 @@ public partial class AddLibraryWindow : Window
         {
             if (!_controls.TryGetValue(f.Name, out var c)) continue;
             if (ReadControl(c).Length == 0)
-                missing.Add($"{CloudPresets.LabelFor(_preset, f.Name)}（{f.Name}）");
+                missing.Add(CloudPresets.LabelFor(_preset, f.Name));
         }
         return missing;
     }
@@ -529,7 +550,8 @@ public partial class AddLibraryWindow : Window
     private static string ReadControl(Control c) => c switch
     {
         TextBox tb => tb.Text.Trim(),
-        ComboBox cb => cb.SelectedItem?.ToString() ?? "",
+        // 下拉项显示中文，原始选项值存在 Tag 里
+        ComboBox cb => (cb.SelectedItem as ComboBoxItem)?.Tag as string ?? cb.SelectedItem?.ToString() ?? "",
         // OpenList 的布尔字段用 t/f（strconv 风格），传 true/false 会被驱动拒绝
         CheckBox chk => chk.IsChecked == true ? "t" : "f",
         _ => "",
